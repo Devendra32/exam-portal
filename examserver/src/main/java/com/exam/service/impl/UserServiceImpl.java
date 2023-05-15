@@ -19,18 +19,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepo;
 
+    //Creating User
     @Override
     public User createUser(User user, Set<UserRole> userRoles) throws Exception {
         User local = this.userRepo.findByUsername(user.getUsername());
         if (local != null) {
             System.out.println("User already exist!!");
-            throw new Exception("User aleardy present!!");
+            throw new Exception("User already present!!");
         } else {
             for (UserRole ur : userRoles) {
                 roleRepo.save(ur.getRole());
             }
             user.getUserRoles().addAll(userRoles);
-//            local = this.userRepo.save(user);
+            local = this.userRepo.save(user);
         }
         return local;
     }
